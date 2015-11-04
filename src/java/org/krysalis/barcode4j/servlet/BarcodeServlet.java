@@ -53,6 +53,8 @@ public class BarcodeServlet extends HttpServlet {
     public static final String BARCODE_MSG                 = "msg";
     /** Parameter name for the barcode type */
     public static final String BARCODE_TYPE                = "type";
+    /** Parameter name for the barcode codeset, only when type code128 */
+    public static final String BARCODE_CODESETS            = "codesets";
     /** Parameter name for the barcode height */
     public static final String BARCODE_HEIGHT              = "height";
     /** Parameter name for the module width */
@@ -207,6 +209,12 @@ public class BarcodeServlet extends HttpServlet {
             attr.setValue(wideFactor);
             child.addChild(attr);
         }
+        String codeSets = request.getParameter(BARCODE_CODESETS);
+        if (type == "code128" && codeSets != null) {
+            attr = new DefaultConfiguration("codesets");
+            attr.setValue(codeSets);
+            child.addChild(attr);
+        }        
         String quietZone = request.getParameter(BARCODE_QUIET_ZONE);
         if (quietZone != null) {
             attr = new DefaultConfiguration("quiet-zone");
